@@ -7,11 +7,4 @@ const sequelize = new Sequelize(
   { dialect: "postgres", host: process.env.DB_HOST }
 );
 
-module.exports = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("Connected to DB succesfully");
-  } catch (e) {
-    console.log(`DB connection error: ${e.message}`);
-  }
-};
+module.exports = sequelize;
