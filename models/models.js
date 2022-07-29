@@ -59,6 +59,13 @@ const CategoryBrand = sequelize.define("category_brands", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
+const Sale = sequelize.define("sales", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  discount: { type: DataTypes.INTEGER, allowNull: false },
+  image: { typr: DataTypes.STRING, allowNull: false },
+  expiresDate: { type: DataTypes.DATE, allowNull: false },
+});
+
 User.hasOne(Basket);
 Basket.belongsTo(User);
 
@@ -88,6 +95,9 @@ Location.belongsTo(Basket);
 
 Category.belongsToMany(Brand, { through: CategoryBrand });
 Brand.belongsToMany(Category, { through: CategoryBrand });
+
+Sale.hasOne(Product);
+Product.belongsTo(Sale);
 
 module.exports = {
   User,
