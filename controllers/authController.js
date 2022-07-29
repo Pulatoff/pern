@@ -54,3 +54,32 @@ exports.signin = catchError(async (req, res, next) => {
     user,
   });
 });
+
+exports.protect = catchError(async (req, res) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token) {
+    return next(new AppError("You dont have enter to app", 403));
+  }
+
+  const tekshir = jwt.verify(token, process.env.JWT_SECRET);
+
+  if (!tekshir) {
+    return next(new AppError("You must login", 403));
+  }
+
+  const user = await User.findOne({ where: { id } });
+
+  if (!user) {
+    return next(new AppError("You must register", 403));
+  }
+
+  req.user = user;
+  next();
+});
