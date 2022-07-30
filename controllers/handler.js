@@ -28,4 +28,5 @@ exports.update = catchError(async (req, res, next, Model) => {
 
 exports.delete = catchError(async (req, res, next, Model) => {
   const data = await Model.destroy({ where: { id: +req.params.id } });
+  response(res, data, 204);
 });
