@@ -62,7 +62,7 @@ const CategoryBrand = sequelize.define("category_brands", {
 const Sale = sequelize.define("sales", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   discount: { type: DataTypes.INTEGER, allowNull: false },
-  image: { typr: DataTypes.STRING, allowNull: false },
+  image: { type: DataTypes.STRING, allowNull: false },
   expiresDate: { type: DataTypes.DATE, allowNull: false },
 });
 
