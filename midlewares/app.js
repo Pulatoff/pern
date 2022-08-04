@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const userRouter = require("../routes/userRouter");
 const categoryRouter = require("../routes/categoryRouter");
-const brandRouter = require("../routes/brandController");
+const brandRouter = require("../routes/brandRouter");
 const morgan = require("morgan");
 
 // logging requests
