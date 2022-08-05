@@ -28,7 +28,7 @@ exports.signup = async (req, res, next) => {
   });
 };
 
-exports.signin = catchError(async (req, res, next) => {
+exports.signin = async (req, res, next) => {
   const { password, email } = req.body;
 
   // check enter password
@@ -53,7 +53,7 @@ exports.signin = catchError(async (req, res, next) => {
     token,
     user,
   });
-});
+};
 
 exports.protect = catchError(async (req, res) => {
   let token;

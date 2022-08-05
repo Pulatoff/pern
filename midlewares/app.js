@@ -5,6 +5,16 @@ const categoryRouter = require("../routes/categoryRouter");
 const brandRouter = require("../routes/brandRouter");
 const reviewRouter = require("../routes/reviewRouter");
 const morgan = require("morgan");
+const cors = require("cors");
+
+// secury policy
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+  })
+);
 
 // logging requests
 app.use(morgan("dev"));
