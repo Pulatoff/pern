@@ -4,12 +4,13 @@ const bcrypt = require("bcryptjs");
 const AppError = require("../utility/AppError");
 const catchError = require("../utility/catchError");
 const Email = require("../utility/mail");
+const catchErrorLitle = require("../utility/catchErrorLitle");
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "10d" });
 };
 
-exports.signup = async (req, res, next) => {
+exports.signup = catchError(async (req, res, next) => {
   const { password, email, role } = req.body;
   if (!email || !password) {
     return next(new AppError("Invalid email or password", 403));
@@ -26,16 +27,11 @@ exports.signup = async (req, res, next) => {
   const basket = await User.create({ userId: newUser.id });
   const token = createToken(newUser.id);
 
-  new Email(newUser, "http://localhost:8000").sendMessage(
-    null,
-    "You must verified account"
-  );
-
   res.status(203).json({
     token,
     user: newUser,
   });
-};
+});
 
 exports.signin = async (req, res, next) => {
   const { password, email } = req.body;
@@ -56,6 +52,10 @@ exports.signin = async (req, res, next) => {
   }
 
   const token = createToken(user.id);
+  new Email(user, "http://localhost:8000").sendMessage(
+    null,
+    "You must verified account"
+  );
 
   res.status(200).json({
     status: "success",

@@ -12,14 +12,14 @@ class Email {
     this.url = url;
   }
 
-  sendMessage(template, message) {
+  async sendMessage(template, message) {
     const msg = {
       to: this.email,
       from: process.env.SENDGRID_FROM_EMAIL,
       subject: message,
       html: "<strong>and easy to do anywhere, even with Node.js</strong>",
     };
-    client.send(msg);
+    await client.send(msg);
   }
 }
 
