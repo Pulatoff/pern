@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const AppError = require("../utility/AppError");
 const catchError = require("../utility/catchError");
+const Email = require("../utility/mail");
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "10d" });
@@ -13,15 +14,23 @@ exports.signup = async (req, res, next) => {
   if (!email || !password) {
     return next(new AppError("Invalid email or password", 403));
   }
+
   const user = await User.findOne({ where: { email } });
   if (user) {
     return next(
       new AppError("Already has email. Please enter other email or login", 403)
     );
   }
+
   const newUser = await User.create({ email, password, role });
   const basket = await User.create({ userId: newUser.id });
   const token = createToken(newUser.id);
+
+  new Email(newUser, "http://localhost:8000").sendMessage(
+    null,
+    "You must verified account"
+  );
+
   res.status(203).json({
     token,
     user: newUser,
