@@ -11,6 +11,7 @@ class Email {
     this.name = user.name;
     this.url = url;
   }
+
   sendMessage(template, message) {
     const msg = {
       to: this.email,
